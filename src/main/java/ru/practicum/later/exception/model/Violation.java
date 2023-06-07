@@ -1,4 +1,4 @@
-package ru.practicum.later.expception.model;
+package ru.practicum.later.exception.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -5,8 +5,9 @@ import org.modelmapper.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import ru.practicum.later.expception.exp.NotFoundException;
+import ru.practicum.later.exception.exp.NotFoundException;
 import ru.practicum.later.validation.Marker;
+import ru.practicum.later.validation.Util;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -43,8 +44,11 @@ class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> findAllByStateInAndRegistrationDateBetweenOrderByIdAsc(Set<UserState> states, Instant from, Instant to) {
-        List<UserEntity> usersEntity = userEntityRepository
+    public List<UserDto> findAllByStateInAndRegistrationDateBetweenOrderByIdAsc(Set<UserState> states, String dateFrom, String dateTo) {
+        final Instant from = Util.dateStringToLocalDate(dateFrom);
+        final Instant to = Util.dateStringToLocalDate(dateTo);
+        Util.validateDates(from, to);
+        final List<UserEntity> usersEntity = userEntityRepository
                 .findAllByStateInAndRegistrationDateBetweenOrderByIdAsc(states, from, to);
         return usersEntity
                 .stream()
@@ -57,7 +61,7 @@ class UserServiceImpl implements UserService {
     @Override
     public UserDto saveUser(@Valid UserDto userDto) {
         final UserEntity userEntity = userModelMapper.map(userDto, UserEntity.class);
-        userEntity.setRegistrationDate(Instant.now());
+        userEntity.setRegistrationDate(Instant.now().minusSeconds(24 * 60 * 60));
         final UserEntity createdUserEntity = userEntityRepository.save(userEntity);
         return userModelMapper.map(createdUserEntity, UserDto.class);
     }

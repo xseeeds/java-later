@@ -1,4 +1,4 @@
-package ru.practicum.later.expception.controller;
+package ru.practicum.later.exception.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -6,12 +6,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.practicum.later.expception.exp.BadRequestException;
-import ru.practicum.later.expception.exp.ConflictException;
-import ru.practicum.later.expception.exp.NotFoundException;
-import ru.practicum.later.expception.model.ErrorResponse;
-import ru.practicum.later.expception.model.ValidationErrorResponse;
-import ru.practicum.later.expception.model.Violation;
+import ru.practicum.later.exception.exp.BadRequestException;
+import ru.practicum.later.exception.exp.ConflictException;
+import ru.practicum.later.exception.exp.NotFoundException;
+import ru.practicum.later.exception.model.ErrorResponse;
+import ru.practicum.later.exception.model.ValidationErrorResponse;
+import ru.practicum.later.exception.model.Violation;
 
 import javax.validation.ConstraintViolationException;
 import java.sql.SQLIntegrityConstraintViolationException;

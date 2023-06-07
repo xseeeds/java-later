@@ -45,6 +45,28 @@ public class LaterApplication {
 
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
+/*
+        modelMapper.addConverter((Converter<UserEntity, OwnerView>) mappingContext -> {
+                        final UserEntity source = mappingContext.getSource();
+                        final OwnerView destination = mappingContext.getDestination();
+                        destination.
+                        return destination;
+                });
+        modelMapper.addConverter((Converter<CarWashDTO, CarWash>) mappingContext -> {
+            CarWashDTO source = mappingContext.getSource();
+            CarWash destination = mappingContext.getDestination();
+            destination.setId(source.getId());
+            destination.setFirstShift(source.getFirstShift() == null ? null : Time.valueOf(source.getFirstShift()));
+            destination.setSecondShift(source.getSecondShift() == null ? null : Time.valueOf(source.getSecondShift()));
+            destination.setEnable(true);
+            destination.setAddress(source.getAddress());
+            destination.setBoxCount(source.getBoxCount());
+            destination.setName(source.getName());
+            destination.setDateOfCreation(source.getDateOfCreation());
+            return destination;
+        });
+*/
+
         modelMapper
                 .createTypeMap(ItemEntity.class, ItemDto.class)
                 .addMappings(mapper -> {
@@ -69,7 +91,7 @@ public class LaterApplication {
         final ModelMapper modelMapper = new ModelMapper();
 
         final DateTimeFormatter formatter = DateTimeFormatter
-                .ofPattern("yyyy.MM.dd, HH:mm:ss")
+                .ofPattern("yyyy.MM.dd HH:mm:ss")
                 .withZone(ZoneOffset.UTC);
 
         final Converter<Instant, String> instantToString = new AbstractConverter<>() {
@@ -88,6 +110,8 @@ public class LaterApplication {
         };
 
         final Condition<String, String> hasEmail = ctx -> ctx.getSource() != null && !ctx.getSource().isBlank();
+        final Condition<String, String> hasFirstName = ctx -> ctx.getSource() != null && !ctx.getSource().isBlank();
+        final Condition<String, String> hasLastName = ctx -> ctx.getSource() != null && !ctx.getSource().isBlank();
         final Condition<String, Instant> hasRegistrationDate = ctx -> {
             final ZonedDateTime zonedDateTime;
             if (ctx.getSource() != null) {
@@ -109,8 +133,11 @@ public class LaterApplication {
         modelMapper
                 .createTypeMap(UserDto.class, UserEntity.class)
                 .addMappings(mapper -> {
+                    mapper.skip(UserEntity::setRegistrationDate);
                     mapper.skip(UserEntity::setPassword);
                     mapper.when(hasEmail).map(UserDto::getEmail, UserEntity::setEmail);
+                    mapper.when(hasFirstName).map(UserDto::getFirstName, UserEntity::setFirstName);
+                    mapper.when(hasLastName).map(UserDto::getLastName, UserEntity::setLastName);
                     mapper.when(hasRegistrationDate).map(UserDto::getRegistrationDate, UserEntity::setRegistrationDate);
                 });
         modelMapper

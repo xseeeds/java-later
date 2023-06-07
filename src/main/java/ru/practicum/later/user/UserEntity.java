@@ -1,6 +1,7 @@
 package ru.practicum.later.user;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -24,6 +25,7 @@ public class UserEntity {
     private String email;
 
     @Column
+    @ToString.Exclude
     private String password;
 
     @Column(name = "registration_date")

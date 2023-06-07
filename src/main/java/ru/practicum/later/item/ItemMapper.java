@@ -1,3 +1,4 @@
+/*
 package ru.practicum.later.item;
 
 import lombok.experimental.UtilityClass;
@@ -22,3 +23,4 @@ public class ItemMapper {
     }
 
 }
+*/

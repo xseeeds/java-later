@@ -1,12 +1,11 @@
 package ru.practicum.later.user;
 
 import org.springframework.validation.annotation.Validated;
-import ru.practicum.later.expception.exp.NotFoundException;
+import ru.practicum.later.exception.exp.NotFoundException;
 import ru.practicum.later.validation.Marker;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -17,7 +16,7 @@ public interface UserService {
 
     List<UserDto> findAllUsers();
 
-    List<UserDto> findAllByStateInAndRegistrationDateBetweenOrderByIdAsc(Set<UserState> states, Instant from, Instant to);
+    List<UserDto> findAllByStateInAndRegistrationDateBetweenOrderByIdAsc(Set<UserState> states, String dateFrom, String dateTo);
 
     @Validated(Marker.OnCreate.class)
     UserDto saveUser(@Valid UserDto userDto);

@@ -4,7 +4,6 @@ package ru.practicum.later.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -19,11 +18,10 @@ public class UserController {
         return userService.findAllUsers();
     }
 
-    @GetMapping("/search")
+    @GetMapping("/search")                                                   //?from={dd.MM.yyyy}&to={dd.MM.yyyy}
     public List<UserDto> findAllByStateInAndRegistrationDateBetweenOrderByIdAsc(@RequestBody Set<UserState> states,
-                                                                                @RequestParam(value = "from") Instant from,
-                                                                                @RequestParam(value = "to") Instant to) {
-        // todo надо сделать ковертацию String vs Instant                                       //?from={from}&to={to}
+                                                                                @RequestParam(value = "from") String from,
+                                                                                @RequestParam(value = "to") String to) {
         return userService.findAllByStateInAndRegistrationDateBetweenOrderByIdAsc(states, from, to);
     }
 

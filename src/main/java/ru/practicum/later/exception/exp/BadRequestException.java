@@ -1,4 +1,4 @@
-package ru.practicum.later.expception.exp;
+package ru.practicum.later.exception.exp;
 
 import lombok.Getter;
 

@@ -1,6 +1,7 @@
 package ru.practicum.later.user;
 
-public interface UserShort {
+
+public interface OwnerView {
 
     String getFirstName();
 
